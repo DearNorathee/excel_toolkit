@@ -1,9 +1,9 @@
 # TODO Next: Rg_NextNoTextCell, St_GetAfter,St_GetBefore
 
-from M01_Range import *
-from M01_Dear import *
+from excel_tool.excel_tool.range import *
+from excel_tool.other import *
 from M01_String import *
-from M01_Worksheet import *
+from excel_tool.worksheet import *
 
 ###################### declare workbook/worksheet that's used for testing #######################################
 test_path01 = r"C:\Users\Heng2020\OneDrive\W_Documents\Rotation 3 NPPM\Emblem Coef\OD_Freq.xlsx"
@@ -68,10 +68,10 @@ def test_St_SimilarString():
 def test_Rg_NextNumeric():
     rng01 = wb_02_Test1["E41"]
     rng02 = wb_02_Test1["G7"]
-    ans_left = Rg_NextNumeric(rng01,"left")
-    ans_right = Rg_NextNumeric(rng01,"right")
-    ans_up = Rg_NextNumeric(rng01,"up")
-    ans_down = Rg_NextNumeric(rng01,"down")
+    ans_left = nextNumeric(rng01,"left")
+    ans_right = nextNumeric(rng01,"right")
+    ans_up = nextNumeric(rng01,"up")
+    ans_down = nextNumeric(rng01,"down")
 
     test_name = D_Get_FuncName()
     func_name = St_GetAfter(test_name,"test_")
@@ -101,16 +101,16 @@ def test_St_GetAfter():
 def test_Ws_WS_at_WB():
     # rng02 = Rg_FindAllRange02("Base",ws_test01,wb_test01) 
     look_at = ws_test01["A1:G20"]
-    rng03 = Rg_FindAllRange("Base",ws_test01,wb_test01,look_at)
+    rng03 = findAllRange("Base",ws_test01,wb_test01,look_at)
     # rng01 = Rg_FindAllRange("Base",ws_test01,wb_test01)
 
 def test_Rg_NextTextCell():
     rng01 = ws_test01["D5"]
     rng02 = ws_test01["G7"]
-    ans_left = Rg_NextTextCell(rng01,"left")
-    ans_right = Rg_NextTextCell(rng01,"right")
-    ans_up = Rg_NextTextCell(rng02,"up")
-    ans_down = Rg_NextTextCell(rng01,"down")
+    ans_left = nextTextCell(rng01,"left")
+    ans_right = nextTextCell(rng01,"right")
+    ans_up = nextTextCell(rng02,"up")
+    ans_down = nextTextCell(rng01,"down")
 
     test_name = D_Get_FuncName()
     func_name = St_GetAfter(test_name,"test_")
@@ -134,10 +134,10 @@ def test_St_ContainsNum():
 def test_Rg_NextContainNum():
     rng01 = wb_02_Test1["S36"]
     rng02 = wb_02_Test1["G7"]
-    ans_left = Rg_NextContainNum(rng01,"left")
-    ans_right = Rg_NextContainNum(rng01,"right")
-    ans_up = Rg_NextContainNum(rng01,"up")
-    ans_down = Rg_NextContainNum(rng01,"down")
+    ans_left = nextContainNum(rng01,"left")
+    ans_right = nextContainNum(rng01,"right")
+    ans_up = nextContainNum(rng01,"up")
+    ans_down = nextContainNum(rng01,"down")
 
     func_name = "Rg_NextContainNum"
     print(f"{func_name} Pass!!!")
@@ -145,10 +145,10 @@ def test_Rg_NextContainNum():
 def test_Rg_NextNoTextCell():
     rng01 = wb_02_Test1["P29"]
     rng02 = wb_02_Test1["G7"]
-    ans_left = Rg_NextNoTextCell(rng01,"left")
-    ans_right = Rg_NextNoTextCell(rng01,"right")
-    ans_up = Rg_NextNoTextCell(rng01,"up")
-    ans_down = Rg_NextNoTextCell(rng01,"down")
+    ans_left = nextNoTextCell(rng01,"left")
+    ans_right = nextNoTextCell(rng01,"right")
+    ans_up = nextNoTextCell(rng01,"up")
+    ans_down = nextNoTextCell(rng01,"down")
 
 
     func_name = "Rg_NextNoTextCell"
@@ -159,9 +159,9 @@ def test_Rg_NextNoTextCell():
 
 def main():
     # test_Ws_WS_at_WB()
-    test_St_SimilarScore()
-    test_St_SimilarString()
-    test_St_GetAfter()
+    # test_St_SimilarScore()
+    # test_St_SimilarString()
+    # test_St_GetAfter()
     test_Rg_NextNoTextCell()
     test_Rg_NextNumeric()
     test_Rg_NextContainNum()

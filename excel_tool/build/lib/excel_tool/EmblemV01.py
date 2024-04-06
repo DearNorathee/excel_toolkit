@@ -1,13 +1,5 @@
-# TODO: Next: line 111 still not work, St_SimilarString
-# might start emblem_column_report in the meantime
-import xlwings as xw
-import pandas as pd
-from All_Module import *
-from difflib import get_close_matches
 
-
-
-
+from LibPortableV01 import *
 def is_Emblem_sheet(ws):
     search_area = ws["A1:G10"]
     base_rng = Rg_FindAllRange("base",ws,search_rng=search_area)
@@ -83,13 +75,13 @@ def input_data_column(file,all_column=False):
 
     return df_dict
 
-def emblem_column_report(data,beta,similar_cut_off=80):
+def emblem_column_report(data,beta,similar_cut_off=80,print_output=True):
 
     data_df = return_as_dataFrame(data)
     beta_df = Wb_ReturnAsWB(beta)
     beta_col_dict = create_emblem_column(beta_df)
     data_col_dict = input_data_column(data_df)
-    level_report = emblem_level_report(data,beta)
+    level_report = emblem_level_report(data,beta,False)
 
     beta_column = list(beta_col_dict.keys())
     data_column = list(data_col_dict.keys())
@@ -116,7 +108,8 @@ def emblem_column_report(data,beta,similar_cut_off=80):
             if max_score >= similar_cut_off:
                 column_report.loc[i,"CsvClosestColumn"] = not (beta_col in col_with_issue)
             column_report.loc[i,"NoLevelIssue"] = ""
-    print(column_report)
+    if print_output:
+        print(column_report)
     return column_report
 
 
@@ -124,7 +117,7 @@ def emblem_column_report(data,beta,similar_cut_off=80):
 
         
 
-def emblem_level_report(data,beta):
+def emblem_level_report(data,beta,print_output=True):
     beta_wb = Wb_ReturnAsWB(beta)
     data_df = return_as_dataFrame(data)
 
@@ -143,7 +136,7 @@ def emblem_level_report(data,beta):
                     level_report_rows.append({'column': column, 'level': level})
 
     level_report = pd.DataFrame(level_report_rows)
-    print(level_report)
+    # print(level_report)
 
     #line 110 not work
     n_row = level_report.shape[0]
@@ -166,8 +159,8 @@ def emblem_level_report(data,beta):
         # You can assign it immediately
         level_report.loc[i,'beta_closest_level'] = closest_level
 
-
-    print(level_report)
+    if print_output:
+        print(level_report)
     return level_report
     # for beta_column in beta_column_list:
     #     beta_level = beta_col_dict[beta_column]
@@ -187,18 +180,18 @@ def map_level():
 
 
 def main():
+    # MyPC Path
     TP_death_Freq_path = r"C:\Users\Heng2020\OneDrive\W_Documents\Rotation 3 NPPM\Emblem Coef\TP Death Freq.xlsx"
     TP_csv_path = r"C:\Users\Heng2020\OneDrive\W_Documents\Rotation 3 NPPM\final_TP_60_000_rows.csv"
     OD_csv_path = r"C:\Users\Heng2020\OneDrive\W_Documents\Rotation 3 NPPM\final_OD_3000_rows.csv"
 
     emblem_column = create_emblem_column(TP_death_Freq_path)
     data_column = input_data_column(TP_csv_path)
-
-    level_report = emblem_level_report(TP_csv_path,TP_death_Freq_path)
+    print("*"*20 + "Column Report" + "*"*20)
     column_report = emblem_column_report(TP_csv_path,TP_death_Freq_path)
+    print("*"*20 + "Level Report" + "*"*20)
+    level_report = emblem_level_report(TP_csv_path,TP_death_Freq_path)
     pass
 
 if __name__ == "__main__":
     main()
-    
-    

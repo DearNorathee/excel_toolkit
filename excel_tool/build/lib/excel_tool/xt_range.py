@@ -1,7 +1,7 @@
 import xlwings as xw
-from M01_Worksheet import Ws_WS_at_WB
+from excel_tool.worksheet import Ws_WS_at_WB
 from M01_String import St_ContainsNum
-from M01_Dear import D_OffsetVal
+from excel_tool.other import D_OffsetVal
 
 
 def Rg_FindAllRange2(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:

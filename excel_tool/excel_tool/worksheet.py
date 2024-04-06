@@ -1,5 +1,5 @@
 import xlwings as xw
-def Ws_WS_at_WB(ws, wb=None, outputOption=True):
+def ws_at_WB(ws, wb=None, outputOption=True):
     # If outputOption = True => output WS
     # If outputOption = False => ws_name as string
     # wb could be workbook or string or missing
