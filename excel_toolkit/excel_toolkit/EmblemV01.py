@@ -8,37 +8,40 @@ def is_Emblem_sheet(ws):
     else:
         return False
     
-def create_emblem_column(emblem_excle):
-    wb = Wb_ReturnAsWB(emblem_excle)
-    #Still Only support 1 sheet 
+def create_emblem_column(emblem_excel):
+    wb = Wb_ReturnAsWB(emblem_excel)
+    # Still Only support 1 sheet 
+
+    def _create_emblem_column_h1(ws):
+        curr_ws = Ws_WS_at_WB(ws)
+        search_base = ws["A1:G10"]
+        rng_base = Rg_FindAllRange("Base",curr_ws,search_rng=search_base)
+        first_col_var = Rg_NextTextCell(rng_base,"down")
+
+        out_dict = dict()
+
+
+        while isinstance(first_col_var,xw.main.Range):
+            second_col_var = first_col_var.offset(2,0)
+            level_start = second_col_var.offset(1,0)
+            level_rng = Rg_PickTilEnd(level_start,"down")
+            variable_name = second_col_var.value
+            level_list = level_rng.value
+
+            # find columns untils the end
+            first_col_var = Rg_NextTextCell(first_col_var,"right",cut_off=10)
+            out_dict[variable_name] = pd.DataFrame({'level':level_list})
+        return out_dict
+    
     for curr_ws in wb.sheets:
         is_Emblem = is_Emblem_sheet(curr_ws)
         if is_Emblem:
-            out_df = create_emblem_columnH01(curr_ws)
+            out_df = _create_emblem_column_h1(curr_ws)
 
     return out_df
 
 
-def create_emblem_columnH01(ws):
-    curr_ws = Ws_WS_at_WB(ws)
-    search_base = ws["A1:G10"]
-    rng_base = Rg_FindAllRange("Base",curr_ws,search_rng=search_base)
-    first_col_var = Rg_NextTextCell(rng_base,"down")
 
-    out_dict = dict()
-
-
-    while isinstance(first_col_var,xw.main.Range):
-        second_col_var = first_col_var.offset(2,0)
-        level_start = second_col_var.offset(1,0)
-        level_rng = Rg_PickTilEnd(level_start,"down")
-        variable_name = second_col_var.value
-        level_list = level_rng.value
-
-        # find columns untils the end
-        first_col_var = Rg_NextTextCell(first_col_var,"right",cut_off=10)
-        out_dict[variable_name] = pd.DataFrame({'level':level_list})
-    return out_dict
 
 def return_as_dataFrame(file):
     if isinstance(file,str):
