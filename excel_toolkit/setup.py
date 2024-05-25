@@ -7,7 +7,7 @@ setup(
     version="0.1.0",
     packages=find_packages(),
     license="MIT",
-    install_requires=["xlwings"],
+    install_requires=["xlwings","openpyxl","pyxlsb","pandas","py_string_tool", "python_wizard", "os_toolkit", ],
     
 
 )
