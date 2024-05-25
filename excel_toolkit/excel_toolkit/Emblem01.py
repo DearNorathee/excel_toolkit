@@ -4,7 +4,7 @@ import xlwings as xw
 import pandas as pd
 from All_Module import *
 from difflib import get_close_matches
-
+import excel_toolkit.workbook as wb
 
 
 
@@ -17,7 +17,7 @@ def is_Emblem_sheet(ws):
         return False
     
 def create_emblem_column(emblem_excle):
-    wb = Wb_ReturnAsWB(emblem_excle)
+    wb = wb.return_as_wb(emblem_excle)
     #Still Only support 1 sheet 
     for curr_ws in wb.sheets:
         is_Emblem = is_Emblem_sheet(curr_ws)
