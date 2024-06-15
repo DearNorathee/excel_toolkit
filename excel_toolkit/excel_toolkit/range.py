@@ -12,7 +12,7 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
     
     #  about 2 hrs to write 
     ws01 = ws_at_WB(ws, wb)
-    out_list = []
+    out_list:List[xw.main.Range] = []
 
     # Set the search area
     if search_rng:
@@ -53,7 +53,10 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
         while found_adr:
 
             # Avoid infinite loop by searching from the next cell
-            found = search_area.api.FindNext(After=found)
+            try:
+                found = search_area.api.FindNext(After=found)
+            except:
+                break
 
             found_adr = found.GetAddress(0,0)
             # Convert COM object to xlwings Range object
@@ -67,6 +70,11 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
             
     if len(out_list)==1:
         return out_list[0]
+    # weird bug where you get the same range
+    elif len(out_list)==2:
+        # if 2 range is the same just return 1 of them
+        if out_list[0].address == out_list[1].address:
+            return out_list[0]
     if as_list:
         return out_list
     else:
