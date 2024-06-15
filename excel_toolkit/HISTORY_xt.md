@@ -2,7 +2,7 @@
 
 ## 0.1.1
 ### Immigrated
-- `regression.multiple_regression` module.
+- All functions from my pc
 
 
 <!-- example -->

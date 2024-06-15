@@ -4,7 +4,7 @@ from excel_tool.M01_String import St_ContainsNum
 from excel_tool.other import D_OffsetVal
 
 
-def findAllRange2(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:
+def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:
     #  supposed to run much faster than Rg_FindAllRange as it use .api
     
     #  medium tested through get_interaction_grouping
@@ -75,14 +75,14 @@ def findAllRange2(str_list, ws, wb=None, as_list=True, search_rng=None, caseSens
         return None  # Placeholder: xlwings does not directly support Range union like Excel VBA
 
 
-def pickTilEnd(rng, direction) -> xw.main.Range:
+def pick_til_end(rng, direction) -> xw.main.Range:
         # direction => 'left','right','up','down' as text is shorter
     ws = rng.sheet
     end_address = rng.end(direction).address
     outRng = ws.range(rng.address, end_address)
     return outRng
 
-def findAllRange(str_list,ws,wb=None,as_list=True,search_rng=None,caseSensitive=False) -> xw.main.Range :
+def find_all_range_slow(str_list,ws,wb=None,as_list=True,search_rng=None,caseSensitive=False) -> xw.main.Range :
     # still slow
     ws01 = ws_at_WB(ws,wb)
     out_list = []
@@ -133,32 +133,32 @@ def findAllRange(str_list,ws,wb=None,as_list=True,search_rng=None,caseSensitive=
         return outRng
 
 
-def nextTextCell(rng, direction = "down",cut_off = 100):
+def next_text_cell(rng, direction = "down",cut_off = 100):
     return_text = "No Next Text Cell"
     func = lambda x: not x is None
-    ans = nextCell(rng,direction,func,True,return_text,cut_off)
+    ans = next_cell(rng,direction,func,True,return_text,cut_off)
     return ans
 
-def nextNoTextCell(rng, direction = "down",cut_off = 100):
+def next_no_text_cell(rng, direction = "down",cut_off = 100):
     return_text = "No Next Empty Cell"
     func = lambda x: x is None
-    ans = nextCell(rng,direction,func,True,return_text,cut_off)
+    ans = next_cell(rng,direction,func,True,return_text,cut_off)
     return ans
 
-def nextContainNum(rng, direction = "down",cut_off = 100):
+def next_contain_num(rng, direction = "down",cut_off = 100):
     return_text = "No Next Cell that contains number"
     func = St_ContainsNum
-    ans = nextCell(rng,direction,func,True,return_text,cut_off)
+    ans = next_cell(rng,direction,func,True,return_text,cut_off)
     return ans
 
-def nextNumeric(rng, direction = "down",cut_off = 100):
+def next_numeric(rng, direction = "down",cut_off = 100):
     return_text = "No Next Cell that is Number"
     func = lambda x: isinstance(x,(int,float))
-    ans = nextCell(rng,direction,func,True,return_text,cut_off)
+    ans = next_cell(rng,direction,func,True,return_text,cut_off)
     return ans
 
 
-def nextCell(rng, direction,func_bool,on_value=True,return_text="No Next Cell Found",cut_off = 100):
+def next_cell(rng, direction,func_bool,on_value=True,return_text="No Next Cell Found",cut_off = 100):
     # direction => 'left','right','up','down' as text is shorter
     # func_bool should return only True or False
     # on_value = True func_bool will work on rng.value, otherwise it will work directly on rng

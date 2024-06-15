@@ -1,6 +1,6 @@
 
 import xlwings as xw
-def returnAsWB(wb):
+def return_as_wb(wb):
     if isinstance(wb,str):
         # This is path
         out_wb = xw.Book(wb)
