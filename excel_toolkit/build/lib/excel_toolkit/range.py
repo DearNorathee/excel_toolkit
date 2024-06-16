@@ -1,8 +1,7 @@
 import xlwings as xw
-from excel_tool.worksheet import ws_at_WB
-from excel_tool.M01_String import St_ContainsNum
-from excel_tool.other import D_OffsetVal
-
+from excel_toolkit.worksheet import ws_at_WB
+from excel_toolkit.M01_String import St_ContainsNum
+from typing import List, Literal,Union
 
 def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:
     #  supposed to run much faster than Rg_FindAllRange as it use .api
@@ -13,7 +12,7 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
     
     #  about 2 hrs to write 
     ws01 = ws_at_WB(ws, wb)
-    out_list = []
+    out_list:List[xw.main.Range] = []
 
     # Set the search area
     if search_rng:
@@ -54,7 +53,10 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
         while found_adr:
 
             # Avoid infinite loop by searching from the next cell
-            found = search_area.api.FindNext(After=found)
+            try:
+                found = search_area.api.FindNext(After=found)
+            except:
+                break
 
             found_adr = found.GetAddress(0,0)
             # Convert COM object to xlwings Range object
@@ -68,6 +70,11 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
             
     if len(out_list)==1:
         return out_list[0]
+    # weird bug where you get the same range
+    elif len(out_list)==2:
+        # if 2 range is the same just return 1 of them
+        if out_list[0].address == out_list[1].address:
+            return out_list[0]
     if as_list:
         return out_list
     else:
@@ -147,7 +154,8 @@ def next_no_text_cell(rng, direction = "down",cut_off = 100):
 
 def next_contain_num(rng, direction = "down",cut_off = 100):
     return_text = "No Next Cell that contains number"
-    func = St_ContainsNum
+    import py_string_tool as pst
+    func = pst.contain_num
     ans = next_cell(rng,direction,func,True,return_text,cut_off)
     return ans
 
@@ -163,7 +171,7 @@ def next_cell(rng, direction,func_bool,on_value=True,return_text="No Next Cell F
     # func_bool should return only True or False
     # on_value = True func_bool will work on rng.value, otherwise it will work directly on rng
     nextCell = rng
-    row_offset, col_offset = D_OffsetVal(direction)
+    row_offset, col_offset = _offset_val(direction)
     nextCell = nextCell.offset(row_offset,col_offset)
     try:
         # if search through cut_off # of rows and still find nothing then return: return_text
@@ -189,6 +197,19 @@ def next_cell(rng, direction,func_bool,on_value=True,return_text="No Next Cell F
     except:
         return return_text
 
-
+def _offset_val(direction):
+    if direction in ['up']:
+        row_offset = -1
+        col_offset = 0
+    if direction in ['down']:
+        row_offset = 1
+        col_offset = 0
+    if direction in ['left']:
+        row_offset = 0
+        col_offset = -1
+    if direction in ['right']:
+        row_offset = 0
+        col_offset = 1
+    return [row_offset,col_offset]
 
 

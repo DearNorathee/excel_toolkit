@@ -1,5 +1,11 @@
 # History
+## 0.1.3
+### Fixed
+- find_all_range (silly from typing import List bug)
 
+## 0.1.2
+### Fixed
+- find_all_range (some weird bugs are found)
 ## 0.1.1
 ### Immigrated
 - All functions from my pc

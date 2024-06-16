@@ -2,6 +2,7 @@ setup.py
 excel_toolkit/All_Module.py
 excel_toolkit/FromWorkPC.py
 excel_toolkit/LibPortableV01.py
+excel_toolkit/M01_String.py
 excel_toolkit/__init__.py
 excel_toolkit/cant_use_xt.py
 excel_toolkit/fix_bug_xt.py
@@ -14,3 +15,4 @@ excel_toolkit.egg-info/SOURCES.txt
 excel_toolkit.egg-info/dependency_links.txt
 excel_toolkit.egg-info/requires.txt
 excel_toolkit.egg-info/top_level.txt
+tests/test_xlwings02.py
