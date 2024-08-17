@@ -1,6 +1,6 @@
 import xlwings as xw
 from excel_toolkit.worksheet import ws_at_WB
-from excel_toolkit.M01_String import St_ContainsNum
+# from excel_toolkit.M01_String import St_ContainsNum
 from typing import List, Literal,Union
 
 def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:
