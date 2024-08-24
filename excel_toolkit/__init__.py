@@ -1,7 +1,8 @@
-from excel_tool import range
-from excel_tool import workbook
-from excel_tool import worksheet
+import excel_toolkit.range
+import excel_toolkit.workbook
+import excel_toolkit.worksheet
+
 # from excel_tool import other
 
-__version__ = "0.1.4rc1"
+__version__ = "0.1.4rc2"
 
