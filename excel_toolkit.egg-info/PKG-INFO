@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: excel_toolkit
 Version: 0.1.4rc2
 Summary: package to help you automate Excel files' tasks
@@ -11,3 +11,7 @@ Requires-Dist: pandas
 Requires-Dist: py_string_tool>=0.1.4
 Requires-Dist: python_wizard
 Requires-Dist: os_toolkit
+Dynamic: author
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
