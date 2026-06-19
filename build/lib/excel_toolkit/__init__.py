@@ -4,5 +4,5 @@ import excel_toolkit.worksheet # wsx
 
 # from excel_tool import other
 
-__version__ = "0.1.4rc3"
+__version__ = "0.1.4rc4"
 

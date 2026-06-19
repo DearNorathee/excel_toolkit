@@ -3,7 +3,25 @@ from excel_toolkit.worksheet import ws_at_wb
 # from excel_toolkit.M01_String import St_ContainsNum
 from typing import List, Literal,Union
 
-def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSensitive=False) -> list:
+def range_from_text(text_for_row:str|list[str], text_for_col:str|list[str], ws) -> xw.Range:
+    row_cell = find_all_range(search_texts = text_for_row, ws = ws)
+    col_cell = find_all_range(search_texts = text_for_col, ws = ws)
+    out_rng = range_from_range(row_cell, col_cell)
+    return out_rng
+
+def range_from_range(rng_for_row:xw.Range, rng_for_col:xw.Range) -> xw.Range:
+    row_num = rng_for_row.row
+    col_num = rng_for_col.column
+    out_rng = rng_for_col.sheet.cells(row_num,col_num)
+    return out_rng
+
+def find_all_range(
+    search_texts: str|list[str]
+    , ws
+    , wb=None
+    , as_list=True
+    , search_rng=None
+    , caseSensitive=False) -> list[xw.Range] | xw.Range:
     #  supposed to run much faster than Rg_FindAllRange as it use .api
     
     #  medium tested through get_interaction_grouping
@@ -32,11 +50,11 @@ def find_all_range(str_list, ws, wb=None, as_list=True, search_rng=None, caseSen
         matchCase = False
 
     # Convert str_list to list if it's a single string
-    if isinstance(str_list, str):
-        str_list = [str_list]
+    if isinstance(search_texts, str):
+        search_texts = [search_texts]
 
     # Loop through each string in str_list to find all occurrences
-    for text in str_list:
+    for text in search_texts:
         # found = search_area.api.Find(What=text, LookAt=lookAt, MatchCase=matchCase)
         # if use * only it wouldn't find this actual symbol
         # You need to add tilda to specify that we want this symbol
